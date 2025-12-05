@@ -96,11 +96,10 @@ export default function Home() {
         <section className="flex flex-col items-center justify-center gap-6 px-6 py-24 text-center">
 
           <h1 className="max-w-4xl text-4xl font-bold tracking-tight text-[#333] sm:text-6xl">
-            Crie pesquisas contínuas e inteligentes.
+            Participe das pesquisas e compartilhe sua opinião.
           </h1>
           <p className="max-w-2xl text-xl text-[#555] leading-relaxed">
-            Colete feedbacks em tempo real, automatize a análise de dados e tome
-            decisões baseadas em métricas precisas. Tudo em uma única plataforma.
+            Suas respostas ajudam a melhorar ações, programas e serviços nas comunidades.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row mt-4">
             <Link
@@ -123,24 +122,24 @@ export default function Home() {
         <section className="border-t border-[#e0e0e0] bg-[#f8f8f8] px-6 py-24">
           <div className="mx-auto max-w-6xl">
             <h2 className="mb-16 text-center text-3xl font-bold tracking-tight text-[#333]">
-              Tudo o que você precisa para crescer
+              Plataforma de Inteligência Corporativa
             </h2>
             <div className="grid gap-8 sm:grid-cols-3">
               {[
                 {
-                  title: "Análise em Tempo Real",
+                  title: "Monitoramento de Impacto",
                   description:
-                    "Acompanhe as respostas conforme elas chegam. Gráficos dinâmicos e insights automáticos.",
+                    "Perguntas regulares sobre mudanças percebidas, experiências recentes e efeitos no cotidiano.",
                 },
                 {
                   title: "Segurança de Dados",
                   description:
-                    "Seus dados estão protegidos com criptografia de ponta a ponta e conformidade com LGPD.",
+                    "Ambiente seguro com criptografia de ponta e total conformidade com as políticas de governança e LGPD.",
                 },
                 {
-                  title: "Distribuição Variada",
+                  title: "Gestão Estratégica",
                   description:
-                    "Envie por e-mail, link direto, QR Code ou integre diretamente no seu sistema.",
+                    "Pesquisas para entender prioridades, opiniões e sugestões em diferentes temas do dia a dia.",
                 },
               ].map((feature, i) => (
                 <div
@@ -175,9 +174,9 @@ export default function Home() {
           <Image
             src="/regua.png"
             alt="Régua de marcas"
-            width={300}
-            height={50}
-            className="h-auto max-w-[80%] opacity-80"
+            width={800}
+            height={100}
+            className="h-auto w-full max-w-[90%] opacity-90"
           />
         </div>
         <p className="font-bold">&copy; {new Date().getFullYear()} Listening Research. Todos os direitos reservados.</p>
