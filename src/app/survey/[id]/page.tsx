@@ -4,14 +4,15 @@ import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
-export default async function SurveyPage({ params }: { params: { id: string } }) {
+export default async function SurveyPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
     const supabase = await createClient()
 
     // 1. Fetch Survey
     const { data: survey, error: surveyError } = await supabase
         .from('surveys')
         .select('*')
-        .eq('id', params.id)
+        .eq('id', id)
         .single()
 
     if (surveyError || !survey) {
@@ -24,7 +25,7 @@ export default async function SurveyPage({ params }: { params: { id: string } })
                     {/* Debug Info for User */}
                     <div className="mt-6 rounded bg-gray-100 p-4 text-left text-xs font-mono text-gray-700">
                         <p><strong>Debug Info:</strong></p>
-                        <p>ID: {params.id}</p>
+                        <p>ID: {id}</p>
                         <p>Error: {surveyError?.message || 'Nenhum dado retornado'}</p>
                         <p>Code: {surveyError?.code}</p>
                     </div>
@@ -44,7 +45,7 @@ export default async function SurveyPage({ params }: { params: { id: string } })
             *,
             options:question_options(*)
         `)
-        .eq('survey_id', params.id)
+        .eq('survey_id', id)
         .order('order_index', { ascending: true })
 
     // Sort options correctly
