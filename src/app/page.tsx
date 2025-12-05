@@ -122,7 +122,7 @@ export default function Home() {
         <section className="border-t border-[#e0e0e0] bg-[#f8f8f8] px-6 py-24">
           <div className="mx-auto max-w-6xl">
             <h2 className="mb-16 text-center text-3xl font-bold tracking-tight text-[#333]">
-              Plataforma de Inteligência Corporativa
+              Ferramenta de Pesquisas e Opinião
             </h2>
             <div className="grid gap-8 sm:grid-cols-3">
               {[
