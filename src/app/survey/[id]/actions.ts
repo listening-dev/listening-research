@@ -100,5 +100,5 @@ export async function submitResponse(surveyId: string, responses: any) {
         })
     }
 
-    redirect('/dashboard/respondent')
+    redirect('/respondent')
 }
