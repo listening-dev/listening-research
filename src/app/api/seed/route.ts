@@ -8,7 +8,7 @@ export async function GET() {
     const { data: survey, error: surveyError } = await supabase
         .from('surveys')
         .insert({
-            title: 'Questionário - “Moradores geral”',
+            title: 'Norte Energia S/A',
             description: 'Norte Energia - 2025',
             status: 'published',
             points_per_response: 100
