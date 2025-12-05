@@ -18,12 +18,18 @@ export default async function RespondentDashboard() {
     }
 
     // Fetch user responses to check completion
-    const { data: responses } = await supabase
-        .from('responses')
-        .select('survey_id, status')
-        .eq('user_id', user?.id)
+    let completedSurveyIds = new Set()
 
-    const completedSurveyIds = new Set(responses?.map(r => r.survey_id))
+    if (user?.id) {
+        const { data: responses } = await supabase
+            .from('responses')
+            .select('survey_id, status')
+            .eq('user_id', user.id)
+
+        if (responses) {
+            completedSurveyIds = new Set(responses.map(r => r.survey_id))
+        }
+    }
 
     return (
         <div className="space-y-8">
@@ -48,8 +54,8 @@ export default async function RespondentDashboard() {
                             <div className="p-6 flex-1">
                                 <div className="flex items-center justify-between mb-4">
                                     <div className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${isCompleted
-                                            ? 'bg-green-100 text-green-800'
-                                            : 'bg-brand-orange/10 text-brand-orange'
+                                        ? 'bg-green-100 text-green-800'
+                                        : 'bg-brand-orange/10 text-brand-orange'
                                         }`}>
                                         {isCompleted ? 'Concluída' : 'Disponível'}
                                     </div>

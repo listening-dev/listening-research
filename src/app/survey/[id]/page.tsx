@@ -2,6 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import SurveyForm from '@/components/SurveyForm'
 import { redirect } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+
 export default async function SurveyPage({ params }: { params: { id: string } }) {
     const supabase = await createClient()
 
@@ -14,10 +16,23 @@ export default async function SurveyPage({ params }: { params: { id: string } })
 
     if (surveyError || !survey) {
         return (
-            <div className="flex h-[50vh] flex-col items-center justify-center">
-                <h1 className="text-2xl font-bold text-gray-900">Pesquisa não encontrada</h1>
-                <p className="text-gray-500">A pesquisa que você tentou acessar não existe ou foi removida.</p>
-                <a href="/respondent" className="mt-4 text-brand-orange hover:underline">Voltar ao painel</a>
+            <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
+                <div className="rounded-lg bg-white p-8 text-center shadow-lg">
+                    <h1 className="text-2xl font-bold text-red-600">Pesquisa não encontrada</h1>
+                    <p className="mt-2 text-gray-500">Não foi possível carregar a pesquisa.</p>
+
+                    {/* Debug Info for User */}
+                    <div className="mt-6 rounded bg-gray-100 p-4 text-left text-xs font-mono text-gray-700">
+                        <p><strong>Debug Info:</strong></p>
+                        <p>ID: {params.id}</p>
+                        <p>Error: {surveyError?.message || 'Nenhum dado retornado'}</p>
+                        <p>Code: {surveyError?.code}</p>
+                    </div>
+
+                    <a href="/respondent" className="mt-6 inline-block rounded bg-gray-900 px-4 py-2 text-sm text-white hover:bg-gray-800">
+                        Voltar ao painel
+                    </a>
+                </div>
             </div>
         )
     }
