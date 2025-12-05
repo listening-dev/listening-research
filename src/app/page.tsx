@@ -96,7 +96,7 @@ export default function Home() {
         <section className="flex flex-col items-center justify-center gap-6 px-6 py-24 text-center">
 
           <h1 className="max-w-4xl text-4xl font-bold tracking-tight text-[#333] sm:text-6xl">
-            Participe das pesquisas e compartilhe sua opinião.
+            Participe das pesquisas e compartilhe sua opinião
           </h1>
           <p className="max-w-2xl text-xl text-[#555] leading-relaxed">
             Suas respostas ajudam a melhorar ações, programas e serviços nas comunidades.
