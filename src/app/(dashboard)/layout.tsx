@@ -43,12 +43,7 @@ export default async function DashboardLayout({
                                     <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-4">
                                         Pesquisas
                                     </p>
-                                    <Link
-                                        href="/respondent"
-                                        className="group flex items-center px-2 py-2 text-sm font-medium rounded-md bg-brand-orange/10 text-brand-orange"
-                                    >
-                                        <span className="truncate">Norte Energia S/A</span>
-                                    </Link>
+                                    <SurveySidebarList userId={user.id} />
                                 </>
                             )}
                             {role === 'admin' && (
@@ -90,6 +85,50 @@ export default async function DashboardLayout({
                     </div>
                 </main>
             </div>
+        </div>
+    )
+}
+
+async function SurveySidebarList({ userId }: { userId: string }) {
+    const supabase = await createClient()
+
+    // Fetch published surveys
+    const { data: surveys } = await supabase
+        .from('surveys')
+        .select('id, title')
+        .eq('status', 'published')
+        .order('created_at', { ascending: false })
+
+    if (!surveys?.length) return <p className="px-5 text-sm text-gray-400">Nenhuma pesquisa disponível</p>
+
+    // Fetch user responses to check completion status
+    const { data: responses } = await supabase
+        .from('responses')
+        .select('survey_id')
+        .eq('user_id', userId)
+
+    const completedSurveyIds = new Set(responses?.map(r => r.survey_id) || [])
+
+    return (
+        <div className="space-y-1">
+            {surveys.map((survey) => {
+                const isCompleted = completedSurveyIds.has(survey.id)
+                return (
+                    <Link
+                        key={survey.id}
+                        href={isCompleted ? '/respondent' : `/survey/${survey.id}`}
+                        className={`group flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md ${isCompleted
+                            ? 'text-gray-400 hover:text-gray-500 hover:bg-gray-50'
+                            : 'bg-brand-orange/10 text-brand-orange hover:bg-brand-orange/20'
+                            }`}
+                    >
+                        <span className="truncate">{survey.title}</span>
+                        {isCompleted && (
+                            <span className="inline-block w-2 h-2 rounded-full bg-green-400" title="Concluída" />
+                        )}
+                    </Link>
+                )
+            })}
         </div>
     )
 }
