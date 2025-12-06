@@ -32,15 +32,19 @@ export default function QuestionRenderer({ question, onChange }: { question: Que
             return (
                 <div className="flex gap-4">
                     {['Sim', 'Não'].map((opt) => (
-                        <label key={opt} className="flex items-center gap-2">
+                        <label key={opt} className={`flex-1 flex items-center justify-center gap-2 p-4 rounded-lg border-2 cursor-pointer transition-all ${value?.value_text === opt
+                            ? 'border-indigo-600 bg-indigo-50 text-indigo-700 font-medium'
+                            : 'border-gray-200 hover:border-indigo-300 hover:bg-gray-50'
+                            }`}>
                             <input
                                 type="radio"
                                 name={question.id}
                                 value={opt}
                                 onChange={() => handleChange({ value_text: opt })}
                                 required={question.is_required}
-                                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                className="sr-only"
                             />
+                            {value?.value_text === opt && <span className="w-2 h-2 rounded-full bg-indigo-600 mr-2" />}
                             {opt}
                         </label>
                     ))}
@@ -48,9 +52,12 @@ export default function QuestionRenderer({ question, onChange }: { question: Que
             )
         case 'single':
             return (
-                <div className="space-y-2">
+                <div className="space-y-3">
                     {question.options?.map((opt) => (
-                        <label key={opt.id} className="flex items-center gap-2">
+                        <label key={opt.id} className={`flex items-center w-full p-4 rounded-lg border cursor-pointer transition-all ${value?.option_id === opt.id
+                            ? 'border-indigo-600 bg-indigo-50 shadow-sm'
+                            : 'border-gray-200 hover:border-indigo-300 hover:bg-gray-50'
+                            }`}>
                             <input
                                 type="radio"
                                 name={question.id}
@@ -59,31 +66,42 @@ export default function QuestionRenderer({ question, onChange }: { question: Que
                                 required={question.is_required}
                                 className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                             />
-                            {opt.label}
+                            <span className={`ml-3 text-sm ${value?.option_id === opt.id ? 'font-medium text-indigo-900' : 'text-gray-700'}`}>
+                                {opt.label}
+                            </span>
                         </label>
                     ))}
                 </div>
             )
         case 'multiple':
             return (
-                <div className="space-y-2">
-                    {question.options?.map((opt) => (
-                        <label key={opt.id} className="flex items-center gap-2">
-                            <input
-                                type="checkbox"
-                                value={opt.value}
-                                onChange={(e) => {
-                                    const current = value?.option_ids || []
-                                    const newValue = e.target.checked
-                                        ? [...current, opt.id]
-                                        : current.filter((id: string) => id !== opt.id)
-                                    handleChange({ option_ids: newValue })
-                                }}
-                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                            />
-                            {opt.label}
-                        </label>
-                    ))}
+                <div className="space-y-3">
+                    {question.options?.map((opt) => {
+                        const isSelected = (value?.option_ids || []).includes(opt.id)
+                        return (
+                            <label key={opt.id} className={`flex items-center w-full p-4 rounded-lg border cursor-pointer transition-all ${isSelected
+                                ? 'border-indigo-600 bg-indigo-50 shadow-sm'
+                                : 'border-gray-200 hover:border-indigo-300 hover:bg-gray-50'
+                                }`}>
+                                <input
+                                    type="checkbox"
+                                    value={opt.value}
+                                    checked={isSelected}
+                                    onChange={(e) => {
+                                        const current = value?.option_ids || []
+                                        const newValue = e.target.checked
+                                            ? [...current, opt.id]
+                                            : current.filter((id: string) => id !== opt.id)
+                                        handleChange({ option_ids: newValue })
+                                    }}
+                                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                />
+                                <span className={`ml-3 text-sm ${isSelected ? 'font-medium text-indigo-900' : 'text-gray-700'}`}>
+                                    {opt.label}
+                                </span>
+                            </label>
+                        )
+                    })}
                 </div>
             )
         case 'likert':
@@ -92,18 +110,28 @@ export default function QuestionRenderer({ question, onChange }: { question: Que
                 : [1, 2, 3, 4, 5].map(v => ({ value: v, label: v.toString() }))
 
             return (
-                <div className="flex justify-between max-w-xs">
+                <div className="flex justify-between items-end gap-1 px-1">
                     {likertOptions.map((opt) => (
-                        <label key={opt.value} className="flex flex-col items-center gap-1">
+                        <label key={opt.value} className="flex flex-col items-center gap-2 cursor-pointer group">
+                            <div className={`w-10 h-10 flex items-center justify-center rounded-full border-2 transition-all ${value?.value_numeric === opt.value
+                                ? 'border-indigo-600 bg-indigo-600 text-white scale-110 shadow-md'
+                                : 'border-gray-300 text-gray-400 group-hover:border-indigo-400 group-hover:text-indigo-500'
+                                }`}>
+                                <span className="text-sm font-semibold">{opt.value}</span>
+                            </div>
                             <input
                                 type="radio"
                                 name={question.id}
                                 value={opt.value}
                                 onChange={() => handleChange({ value_numeric: opt.value })}
                                 required={question.is_required}
-                                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                className="sr-only"
                             />
-                            <span className="text-xs text-gray-500">{opt.label}</span>
+                            {/* Hide label on small screens if standard 1-5, keep for custom text */}
+                            <span className={`text-[10px] text-center max-w-[60px] line-clamp-2 leading-tight ${value?.value_numeric === opt.value ? 'text-indigo-700 font-medium' : 'text-gray-500'
+                                }`}>
+                                {opt.label !== opt.value.toString() ? opt.label : ''}
+                            </span>
                         </label>
                     ))}
                 </div>

@@ -48,7 +48,9 @@ export default async function RespondentDashboard() {
                     return (
                         <div
                             key={survey.id}
-                            className={`relative flex flex-col overflow-hidden rounded-2xl transition-all hover:shadow-lg ${isCompleted ? 'bg-gray-50 border border-gray-200 opacity-80' : 'bg-white shadow-md ring-1 ring-gray-900/5'
+                            className={`group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-xl ${isCompleted
+                                ? 'bg-gray-50 border border-gray-200 opacity-80'
+                                : 'bg-white shadow-md ring-1 ring-gray-900/5 hover:-translate-y-1'
                                 }`}
                         >
                             <div className="p-6 flex-1">
@@ -64,7 +66,7 @@ export default async function RespondentDashboard() {
                                         5 min
                                     </span>
                                 </div>
-                                <h3 className="text-lg font-bold text-gray-900 mb-2">
+                                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-brand-orange transition-colors">
                                     {survey.title}
                                 </h3>
                                 <p className="text-sm text-gray-600 line-clamp-3">
@@ -77,14 +79,14 @@ export default async function RespondentDashboard() {
                                     +{survey.points_per_response} pontos
                                 </div>
                                 {isCompleted ? (
-                                    <span className="flex items-center text-sm font-medium text-green-600">
-                                        <CheckCircle className="mr-2 h-4 w-4" />
+                                    <span className="flex items-center text-sm font-medium text-green-600 bg-green-50 px-3 py-1 rounded-full">
+                                        <CheckCircle className="mr-1.5 h-4 w-4" />
                                         Respondido
                                     </span>
                                 ) : (
                                     <Link
                                         href={`/survey/${survey.id}`}
-                                        className="inline-flex items-center gap-2 rounded-lg bg-brand-orange px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 transition-colors"
+                                        className="inline-flex items-center gap-2 rounded-lg bg-brand-orange px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 transition-all hover:shadow-md hover:scale-105"
                                     >
                                         <PlayCircle className="w-4 h-4" />
                                         Responder
