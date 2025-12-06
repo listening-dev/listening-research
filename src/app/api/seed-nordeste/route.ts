@@ -24,7 +24,14 @@ export async function GET() {
     const opts = (labels: string[]) => labels.map((l, i) => ({ label: l, value: l }))
 
     // Questions Data
-    const questions = [
+    type Question = {
+        text: string
+        type: string
+        options?: { label: string; value: string }[]
+        customScale?: (string | number)[]
+    }
+
+    const questions: Question[] = [
         // Bloco 1: Geodemografia e Localização
         {
             text: '1. Em qual estado você reside atualmente?',
