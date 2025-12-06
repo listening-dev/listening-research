@@ -87,19 +87,23 @@ export default function QuestionRenderer({ question, onChange }: { question: Que
                 </div>
             )
         case 'likert':
+            const likertOptions = question.options?.length
+                ? question.options.map(opt => ({ value: parseInt(opt.value), label: opt.label }))
+                : [1, 2, 3, 4, 5].map(v => ({ value: v, label: v.toString() }))
+
             return (
                 <div className="flex justify-between max-w-xs">
-                    {[1, 2, 3, 4, 5].map((rating) => (
-                        <label key={rating} className="flex flex-col items-center gap-1">
+                    {likertOptions.map((opt) => (
+                        <label key={opt.value} className="flex flex-col items-center gap-1">
                             <input
                                 type="radio"
                                 name={question.id}
-                                value={rating}
-                                onChange={() => handleChange({ value_numeric: rating })}
+                                value={opt.value}
+                                onChange={() => handleChange({ value_numeric: opt.value })}
                                 required={question.is_required}
                                 className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                             />
-                            <span className="text-xs text-gray-500">{rating}</span>
+                            <span className="text-xs text-gray-500">{opt.label}</span>
                         </label>
                     ))}
                 </div>

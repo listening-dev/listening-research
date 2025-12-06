@@ -15,7 +15,11 @@ export async function login(formData: FormData) {
         password,
     })
 
+    // Update login to return translated errors
     if (error) {
+        if (error.message === 'Invalid login credentials') {
+            return { error: 'E-mail ou senha incorretos.' }
+        }
         return { error: error.message }
     }
 
@@ -29,11 +33,14 @@ export async function signup(formData: FormData) {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
 
+    // Use absolute URL for production support
+    const origin = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+
     const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-            emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/auth/callback`,
+            emailRedirectTo: `${origin}/auth/callback`,
         },
     })
 
@@ -42,5 +49,21 @@ export async function signup(formData: FormData) {
     }
 
     revalidatePath('/', 'layout')
-    return { message: 'Check your email to continue.' }
+    return { message: 'Verifique seu e-mail para continuar.' }
+}
+
+export async function forgotPassword(formData: FormData) {
+    const supabase = await createClient()
+    const email = formData.get('email') as string
+    const origin = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${origin}/auth/callback?next=/account/reset-password`,
+    })
+
+    if (error) {
+        return { error: error.message }
+    }
+
+    return { message: 'E-mail de recuperação enviado!' }
 }
