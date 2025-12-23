@@ -28,28 +28,36 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
-    const supabase = await createClient()
+    try {
+        const supabase = await createClient()
 
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
+        const email = formData.get('email') as string
+        const password = formData.get('password') as string
 
-    // Use absolute URL for production support
-    const origin = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+        // Use absolute URL for production support
+        const origin = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
 
-    const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-            emailRedirectTo: `${origin}/auth/callback`,
-        },
-    })
+        console.log('[Signup] Attempting signup for:', email)
 
-    if (error) {
-        return { error: error.message }
+        const { error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                emailRedirectTo: `${origin}/auth/callback`,
+            },
+        })
+
+        if (error) {
+            console.error('[Signup] Supabase error:', error)
+            return { error: error.message }
+        }
+
+        revalidatePath('/', 'layout')
+        return { message: 'Verifique seu e-mail para continuar.' }
+    } catch (err: any) {
+        console.error('[Signup] Unexpected error:', err)
+        return { error: 'Ocorreu um erro inesperado ao tentar cadastrar. Tente novamente.' }
     }
-
-    revalidatePath('/', 'layout')
-    return { message: 'Verifique seu e-mail para continuar.' }
 }
 
 export async function forgotPassword(formData: FormData) {

@@ -2,22 +2,21 @@
 
 import { signup } from '../actions'
 import Link from 'next/link'
+import { Toaster, toast } from 'sonner'
 
 export default function RegisterPage() {
     const handleSignup = async (formData: FormData) => {
         const result = await signup(formData)
         if (result?.error) {
-            // Assuming you have toast imported or just alert for now if not
-            // But RegisterPage didn't import toast in my previous code.
-            // I should add import toast from 'sonner'
-            alert(result.error)
+            toast.error(result.error)
         } else if (result?.message) {
-            alert(result.message)
+            toast.success(result.message)
         }
     }
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
+            <Toaster richColors />
             <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-lg">
                 <div className="text-center">
                     <h2 className="text-3xl font-bold tracking-tight text-gray-900">Criar conta</h2>
@@ -59,11 +58,11 @@ export default function RegisterPage() {
                                 name="lgpd"
                                 type="checkbox"
                                 required
-                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 cursor-pointer"
                             />
                         </div>
                         <div className="ml-3 text-sm leading-6">
-                            <label htmlFor="lgpd" className="font-medium text-gray-900">
+                            <label htmlFor="lgpd" className="font-medium text-gray-900 cursor-pointer">
                                 Concordo com os termos
                             </label>
                             <p className="text-gray-500">
@@ -75,14 +74,14 @@ export default function RegisterPage() {
                     <div>
                         <button
                             type="submit"
-                            className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
                         >
                             Cadastrar
                         </button>
                     </div>
 
                     <div className="text-center text-sm">
-                        <Link href="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                        <Link href="/login" className="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">
                             Já tem uma conta? Entre aqui
                         </Link>
                     </div>

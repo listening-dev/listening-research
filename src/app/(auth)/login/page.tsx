@@ -75,7 +75,7 @@ export default function LoginPage() {
                             <button
                                 type="button"
                                 onClick={() => setView('forgot_password')}
-                                className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                                className="text-sm font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer"
                             >
                                 Esqueci minha senha
                             </button>
@@ -84,13 +84,13 @@ export default function LoginPage() {
                         <div className="flex flex-col gap-3">
                             <button
                                 type="submit"
-                                className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
                             >
                                 Entrar
                             </button>
                             <button
                                 formAction={handleSignup}
-                                className="group relative flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-indigo-600 ring-1 ring-inset ring-indigo-600 hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                className="group relative flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-indigo-600 ring-1 ring-inset ring-indigo-600 hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
                             >
                                 Criar conta
                             </button>
@@ -114,14 +114,14 @@ export default function LoginPage() {
                         <div className="flex flex-col gap-3">
                             <button
                                 type="submit"
-                                className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+                                className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 cursor-pointer"
                             >
                                 Enviar E-mail de Recuperação
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setView('login')}
-                                className="text-sm font-semibold text-gray-500 hover:text-gray-900"
+                                className="text-sm font-semibold text-gray-500 hover:text-gray-900 cursor-pointer"
                             >
                                 Voltar para o Login
                             </button>
